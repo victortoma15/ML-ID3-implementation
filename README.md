@@ -31,4 +31,5 @@ loan - is that transfer loan? True if yes
 successful_transfer - is the transfer successful?
 
 
+
 The target attribute is succesfull_transfer.
