@@ -3,7 +3,7 @@ import numpy as np
 from math import log2
 
 
-def compute_discrete_probabilities (data):
+def compute_discrete_probabilities(data):
     probability_dict = {}
 
     for column in data.columns:
@@ -14,7 +14,7 @@ def compute_discrete_probabilities (data):
     return probability_dict
 
 
-def calculate_attribute_entropy (probabilities):
+def calculate_attribute_entropy(probabilities):
     entropy = 0
 
     for prob in probabilities.values():
@@ -23,30 +23,30 @@ def calculate_attribute_entropy (probabilities):
     return entropy
 
 
-def calculate_max_possible_entropy (probabilities):
+def calculate_max_possible_entropy(probabilities):
     max_entropy = -log2(1 / len(probabilities))
     return max_entropy
 
 
-def calculate_normalized_entropy (probabilities):
+def calculate_normalized_entropy(probabilities):
     entropy = calculate_attribute_entropy(probabilities)
     max_entropy = calculate_max_possible_entropy(probabilities)
     normalized_entropy = entropy / max_entropy
     return normalized_entropy
 
 
-def calculate_discrete_attributes_entropies (data, probabilities_dict):
+def calculate_discrete_attributes_entropies(data, probabilities_dict):
     entropies_dict = {}
 
     for attribute, probabilities in probabilities_dict.items():
-        normalized_entropy = calculate_normalized_entropy(probabilities)
+        normalized_entropy = round(calculate_normalized_entropy(probabilities), 4)
         entropies_dict[attribute] = normalized_entropy
 
     return entropies_dict
 
 
-def calculate_conditional_entropy (data, target_column_for_conditional_entropy,
-                                   attribute_column_for_conditional_entropy):
+def calculate_conditional_entropy(data, target_column_for_conditional_entropy,
+                                  attribute_column_for_conditional_entropy):
     probability_x = data[attribute_column_for_conditional_entropy].value_counts(normalize=True).to_dict()
 
     conditional_entropy = 0
@@ -62,7 +62,7 @@ def calculate_conditional_entropy (data, target_column_for_conditional_entropy,
     return conditional_entropy
 
 
-def calculate_information_gain (data, target_column_for_information_gain, attribute_column_for_information_gain):
+def calculate_information_gain(data, target_column_for_information_gain, attribute_column_for_information_gain):
     probability_y = data[target_column_for_information_gain].value_counts(normalize=True).to_dict()
     entropy_y = calculate_attribute_entropy(probability_y)
 
@@ -72,6 +72,14 @@ def calculate_information_gain (data, target_column_for_information_gain, attrib
     information_gain = entropy_y - conditional_entropy
 
     return information_gain
+
+
+def calculate_all_entropies(data, probabilities_dict):
+    entropies_dict = {}
+    for attribute, probabilities in probabilities_dict.items():
+        entropy = calculate_attribute_entropy(probabilities)
+        entropies_dict[attribute] = entropy
+    return entropies_dict
 
 
 ##############################################################################################################
@@ -137,6 +145,4 @@ information_gain_result = round(calculate_information_gain(df, target_column_for
 print(f"Information Gain: Ig({target_column_for_information_gain};{attribute_column_for_information_gain})= "
       f"{information_gain_result}")
 
-print("\n")
-print("--------------------------------------------------")
 print("\n")
