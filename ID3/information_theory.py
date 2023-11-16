@@ -85,9 +85,8 @@ def calculate_all_entropies(data, probabilities_dict):
 ##############################################################################################################
 
 
-file_path = r"C:\Users\Victor\OneDrive\Desktop\ML-ID3-implementation\football_transfers_dataset.csv"
-
-df = pd.read_csv(file_path)
+url = "https://docs.google.com/spreadsheets/d/1TNF53t5fR1whuo4_pFNPkhig_iVCkUvqD6IdDwVb3iE/export?format=csv"
+df = pd.read_csv(url)
 
 numerical_attributes = df.select_dtypes(include=['float64', 'int64']).columns
 
