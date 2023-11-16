@@ -19,7 +19,7 @@ def find_root_node (data, target_column):
     return root_node, max_information_gain
 
 
-def id3_discrete (data, target_column, remaining_attributes=None):
+def id3_discrete(data, target_column, remaining_attributes=None):
     if remaining_attributes is None:
         remaining_attributes = data.columns.drop(target_column)
 
@@ -43,7 +43,7 @@ def id3_discrete (data, target_column, remaining_attributes=None):
     return tree
 
 
-def find_best_attribute (data, target_column, remaining_attributes):
+def find_best_attribute(data, target_column, remaining_attributes):
     information_gains = {
         attribute: calculate_information_gain(data, target_column, attribute)
         for attribute in remaining_attributes
@@ -179,5 +179,3 @@ print("--------------------------------------------------")
 print("\n")
 
 tree = id3(df, target_column)
-print("ID3:\n")
-print(tree)

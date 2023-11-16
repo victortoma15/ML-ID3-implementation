@@ -63,11 +63,17 @@ def calculate_conditional_entropy(data, target_column_for_conditional_entropy,
 
 
 def calculate_information_gain(data, target_column_for_information_gain, attribute_column_for_information_gain):
-    probability_y = data[target_column_for_information_gain].value_counts(normalize=True).to_dict()
-    entropy_y = calculate_attribute_entropy(probability_y)
+    probability_y = data[target_column_for_information_gain].value_counts(normalize=True)
+    entropy_y = -np.sum(probability_y * np.log2(probability_y))
 
-    conditional_entropy = calculate_conditional_entropy(data, target_column_for_information_gain,
-                                                        attribute_column_for_information_gain)
+    probability_x = data[attribute_column_for_information_gain].value_counts(normalize=True)
+    conditional_entropy = 0
+
+    for x_value, probability_x_value in probability_x.items():
+        subset = data[data[attribute_column_for_information_gain] == x_value]
+        probability_y_given_x = subset[target_column_for_information_gain].value_counts(normalize=True)
+        entropy_y_given_x = -np.sum(probability_y_given_x * np.log2(probability_y_given_x))
+        conditional_entropy += probability_x_value * entropy_y_given_x
 
     information_gain = entropy_y - conditional_entropy
 
